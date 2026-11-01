@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LocalShare</title>
+<meta name="description" content="Telefon ve bilgisayar arasında, aynı ağda olmasan bile doğrudan dosya ve fotoğraf aktar.">
+<meta name="theme-color" content="#0f8b8d">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="LocalShare">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>LocalShare</h1>
+    <span id="chip" class="chip wait">Hazırlanıyor</span>
+  </header>
+
+  <!-- Eşleşme ekranı -->
+  <main id="pairView">
+    <section class="card pair">
+      <p class="lead">Telefonunun kamerasıyla bu kodu okut.</p>
+      <div id="qr" class="qr" aria-label="Bağlantı QR kodu"></div>
+      <p class="code">Kod: <b id="code">…</b></p>
+      <button id="copyBtn" class="ghost" type="button">Bağlantıyı kopyala</button>
+      <p id="pairMsg" class="msg" role="status"></p>
+    </section>
+
+    <section class="card">
+      <form id="codeForm" class="row">
+        <label for="codeInput">Karşı cihazın kodu</label>
+        <div class="inline">
+          <input id="codeInput" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="ls-abc23xyz45">
+          <button type="submit">Bağlan</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <!-- Aktarım ekranı -->
+  <main id="transferView" hidden>
+    <section class="card drop" id="drop">
+      <input id="fileInput" type="file" multiple hidden>
+      <button id="pickBtn" type="button" class="big">Dosya veya fotoğraf seç</button>
+      <p class="hint">Dosyaları buraya sürükleyip de bırakabilirsin.</p>
+    </section>
+
+    <section class="card">
+      <h2>Aktarımlar</h2>
+      <ul id="items" class="items"></ul>
+      <p id="empty" class="hint">Henüz aktarım yok.</p>
+    </section>
+
+    <button id="leaveBtn" class="ghost" type="button">Bağlantıyı kes</button>
+  </main>
+
+  <footer>
+    <button id="installBtn" class="ghost" type="button" hidden>Uygulama olarak yükle</button>
+    <p id="iosHint" class="hint" hidden>iPhone'da yüklemek için Safari'de Paylaş düğmesine, sonra "Ana Ekrana Ekle"ye dokun.</p>
+    <p class="hint">Dosyalar iki cihaz arasında doğrudan gider, bir sunucuda saklanmaz.</p>
+  </footer>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
