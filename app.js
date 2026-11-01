@@ -4,7 +4,7 @@
   // GitHub Pages adresini buraya yaz (örnek: 'https://kullanici.github.io/localshare/').
   // İndirilen kopya dosyadan açıldığında QR kod bu adresi gösterir, telefon da bu adresi açar.
   // Sayfa zaten internet adresinden açılmışsa bu ayar kullanılmaz.
-  const PUBLIC_URL = '';
+  const PUBLIC_URL = 'https://gokayaslan.github.io/localshare/';
 
   const $ = (s) => document.querySelector(s);
   const CHUNK = 128 * 1024;          // her parça 128 KB
