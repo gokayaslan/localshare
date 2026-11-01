@@ -29,7 +29,6 @@ Kullanmak için yüklemen gerekmez. İstersen telefonuna ya da bilgisayarına uy
 
 - **Sayfa düz beyaz ve çirkin görünüyor:** Zip'i ayıklamadan açmışsın. Zip'e sağ tıklayıp **Tümünü ayıkla** de, sonra ayıklanan klasörden aç.
 - **Kırmızı bir uyarı çıkıyor:** Sayfanın internet adresi ayarlanmamış. Uygulamayı yayınlayan kişi **Geliştirenler için** bölümündeki adımı yapmalı.
-- **Bağlanmıyor:** İki cihazın da internete bağlı olduğundan emin ol, sayfayı yenile ve QR kodu yeniden okut.
 - **Bağlantı koptu:** Bilgisayardaki sayfayı yenile ve QR kodu tekrar okut.
 
 ## Bilinen sınırlar
@@ -40,16 +39,56 @@ Kullanmak için yüklemen gerekmez. İstersen telefonuna ya da bilgisayarına uy
 - Aktarım sırasında sayfa açık ve ekran uyanık kalmalı. Telefonda başka uygulamaya geçersen aktarım durabilir.
 - QR kodu ve kodu başkasına gösterme. Kodu bilen kişi sana dosya gönderebilir.
 
-## Geliştirenler için
-
-Uygulama düz HTML, CSS ve JavaScript'tir, derleme gerektirmez. Kendi kopyanı yayınlamak için:
-
-1. Dosyaları kendi GitHub deposuna yükle ve **Settings, Pages** bölümünden `main` dalını `/ (root)` olarak yayınla.
-2. `app.js` dosyasının en üstündeki `PUBLIC_URL` satırına yayın adresini yaz, örneğin `https://kullanici.github.io/localshare/`. İndirilen kopyalardaki QR kodlar telefonu bu adrese yönlendirir.
-
-Kendi PeerJS sunucunu kullanmak istersen `app.js` içindeki `new Peer(myId)` satırına sunucu ayarlarını ekleyebilirsin.
 
 ## Üçüncü taraf kütüphaneler
 
 - [PeerJS](https://peerjs.com) (MIT)
 - [qrcode-generator](https://github.com/kazuhikoarase/qrcode-generator) (MIT)
+
+
+# LocalShare
+
+Transfer files and photos between your phone and your computer. **You don't need to be on the same Wi-Fi.** Scan the QR code on your computer with your phone and the two devices connect directly.
+
+- Works on Windows, Mac, Linux, Android and iPhone
+- No account and no app to install on your phone
+- Files go straight from one device to the other and are never stored anywhere
+
+## How to use
+
+1. Click the green **Code** button at the top of this page, then choose **Download ZIP**.
+2. Right-click the downloaded zip file and choose **Extract All**. Don't open the page from inside the zip: files will be missing and the page will look broken.
+3. In the extracted folder, double-click **index.html**. A QR code opens in your browser.
+4. Point your phone's camera at the QR code and tap the link that appears. When both devices show **Connected** in the top right, you're ready.
+5. On your phone or your computer, tap **Choose files or photos** and pick what you want to send. On the computer you can also drag and drop files onto the page.
+6. The file appears in the list on the other device. Tap **Save**. On a phone a **Share** button may also appear, which is handy for saving photos to your gallery.
+
+If you can't scan the QR code, type the **Code** shown on the computer into the box at the bottom of the page on your phone and tap **Connect**.
+
+## Installing it as an app (optional)
+
+You don't need to install anything to use it. If you like, you can add it to your phone or computer like an app:
+
+- **Windows / Mac (Chrome, Edge):** Click the install icon in the address bar, or the **Install as app** button on the page.
+- **Android (Chrome):** Tap the **Install as app** button, or choose **Add to Home screen** from the menu.
+- **iPhone (Safari):** Tap the Share button, then **Add to Home Screen**.
+
+## If something doesn't work
+
+- **The page looks plain white and unstyled:** You opened it without extracting the zip. Right-click the zip, choose **Extract All**, then open the page from the extracted folder.
+- **A red warning appears:** The page's web address hasn't been set. Whoever published the app needs to set `PUBLIC_URL` at the top of `app.js` to the app's web address.
+- **The connection dropped:** Refresh the page on the computer and scan the QR code again.
+
+## Known limitations
+
+- Pairing uses the free public PeerJS server. It only introduces the two devices to each other and your files never pass through it, but if that server is down, devices can't connect.
+- Some company networks and mobile carriers block direct connections. There is no TURN fallback server.
+- A received file is held in the device's memory during the transfer. Photos and files up to a few hundred MB are fine, but very large videos (especially on iPhone) may cause problems.
+- Keep the page open and the screen awake during a transfer. If you switch to another app on your phone, the transfer may stop.
+- Don't show the QR code or the code to other people. Anyone who has the code can send you files.
+
+## Third-party libraries
+
+- [PeerJS](https://peerjs.com) (MIT)
+- [qrcode-generator](https://github.com/kazuhikoarase/qrcode-generator) (MIT)
+
