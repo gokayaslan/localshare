@@ -8,7 +8,7 @@ Telefon ile bilgisayar arasında dosya ve fotoğraf aktar. **Aynı Wi-Fi'de olma
 
 ## Nasıl kullanılır
 
-1. Bilgisayarda uygulamanın adresini aç (aşağıdaki "GitHub'a yükleme" adımlarından sonra `https://KULLANICI.github.io/localshare/` gibi bir adresin olacak).
+1. Bilgisayarda uygulamanın adresini aç (aşağıdaki "GitHub'a yükleme" adımlarından sonra `(https://gokayaslan.github.io/localshare/)` gibi bir adresin olacak).
 2. Ekranda QR kod çıkar. Telefonun kamerasıyla okut, açılan bağlantıya dokun.
 3. İki cihaz bağlanınca "Bağlandı" yazar. İki yönde de "Dosya veya fotoğraf seç" ile gönderebilirsin.
 4. Gelen dosyada **Kaydet** (ya da telefonda **Paylaş**) düğmesine bas.
@@ -17,17 +17,10 @@ QR okutamıyorsan: bilgisayardaki "Kod" yazısını telefonda sayfanın altında
 
 ## İndirilen kopyayı kullanma (zip / Download ZIP)
 
-Uygulamayı bilgisayara indirip `index.html` dosyasına çift tıklayarak da kullanabilirsin. Bu durumda:
+Uygulamayı (zip'i bilgisayara indirdikten sonra zip dosyasından çıkartalım. Bilgisayara indirip `index.html` dosyasına çift tıklayarak da kullanabilirsin. Bu durumda:
 
 - Bilgisayardaki kopya QR kodu üretir, **telefon ise GitHub Pages'teki yayınlanmış sayfayı açar**. Telefona hiçbir şey kurmak gerekmez.
-- Bunun çalışması için `app.js` dosyasının en üstündeki `PUBLIC_URL` satırına kendi GitHub Pages adresini yaz, örneğin:
 
-  ```js
-  const PUBLIC_URL = 'https://kullanici.github.io/localshare/';
-  ```
-
-- Bu ayarı GitHub'da bir kere yap (repo'da `app.js` dosyasını aç, kalem simgesine bas, satırı değiştir, **Commit changes**). Bundan sonra repo'dan indirilen her kopya hazır gelir.
-- Sayfa zaten `https://...github.io/...` adresinden açılmışsa bu ayara gerek yok, QR kod otomatik doğru adresi taşır.
 
 ## Uygulama olarak yükleme
 
@@ -35,38 +28,7 @@ Uygulamayı bilgisayara indirip `index.html` dosyasına çift tıklayarak da kul
 - **Android (Chrome):** "Uygulama olarak yükle" düğmesi ya da menüden "Ana ekrana ekle".
 - **iPhone (Safari):** Paylaş düğmesi, sonra "Ana Ekrana Ekle".
 
-## GitHub'a yükleme (Git bilmeden)
 
-1. https://github.com adresinde hesabına gir (yoksa ücretsiz hesap aç).
-2. Sağ üstte **+** simgesi, sonra **New repository**.
-3. Repository name: `localshare`. **Public** seç. **Create repository**'e bas.
-4. Açılan sayfada **uploading an existing file** bağlantısına tıkla.
-5. Bu klasörün **içindeki** her şeyi (`index.html`, `app.js`, `style.css`, `sw.js`, `manifest.webmanifest`, `README.md` ve üç adet `.png` ikon dosyası) tarayıcıya sürükle. Klasörün kendisini değil, içindekileri sürükle.
-6. Aşağıda **Commit changes**'e bas.
-7. Repo'da **Settings**, sol menüde **Pages**. "Build and deployment" altında **Source: Deploy from a branch**, **Branch: main**, klasör **/ (root)** seç ve **Save**'e bas.
-8. 1-2 dakika bekle. Sayfanın üstünde `https://KULLANICI.github.io/localshare/` adresi görünür. Uygulaman bu adreste yayında.
-
-### Git ile yüklemek istersen
-
-```bash
-cd localshare
-git init
-git add .
-git commit -m "İlk sürüm"
-git branch -M main
-git remote add origin https://github.com/KULLANICI/localshare.git
-git push -u origin main
-```
-
-Sonra yukarıdaki 7. adımı uygula.
-
-## Bilgisayarında denemek
-
-```bash
-python -m http.server 8000
-```
-
-`http://localhost:8000` adresini aç. Telefonla denemek için sayfanın `https` olması gerekir (kamera bağlantısı, kopyalama ve ekranı açık tutma özellikleri için), o yüzden telefon testini GitHub Pages adresinden yap.
 
 ## Bilinen sınırlar
 
