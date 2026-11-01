@@ -45,7 +45,7 @@ Kullanmak için yüklemen gerekmez. İstersen telefonuna ya da bilgisayarına uy
 - [PeerJS](https://peerjs.com) (MIT)
 - [qrcode-generator](https://github.com/kazuhikoarase/qrcode-generator) (MIT)
 
-
+[Read in English]
 # LocalShare
 
 Transfer files and photos between your phone and your computer. **You don't need to be on the same Wi-Fi.** Scan the QR code on your computer with your phone and the two devices connect directly.
