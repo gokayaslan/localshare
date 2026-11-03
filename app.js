@@ -31,7 +31,9 @@
   }
 
   // ---------- Bağlantıdan gelenler ----------
-  let linkId = null, linkKey = null, pendingText = null;
+  let linkId = null, linkKey = null, pendingText = null, sharedFlag = false;
+  let pendingFiles = [];
+  const isMobile = /android|iphone|ipad|ipod/i.test(navigator.userAgent);
   (function readLink() {
     const qs = new URLSearchParams(location.search);
     const hs = new URLSearchParams(location.hash.replace(/^#/, ''));
@@ -40,6 +42,7 @@
       if (!uniq.some((u) => u.includes(p))) uniq.push(p);
     });
     pendingText = uniq.join('\n') || null;
+    sharedFlag = qs.get('shared') === '1';
     linkId = qs.get('c');
     linkKey = hs.get('k');
     if (location.search || location.hash) {
@@ -126,7 +129,18 @@
   // ---------- Bilgisayar tarafı ----------
   const needsUrl = location.protocol === 'file:' && !PUBLIC_URL;
 
+  function phoneMode() {
+    showView('pair');
+    $('#qrCard').hidden = true;
+    $('#resetRow').hidden = true;
+    $('#phoneHelp').hidden = false;
+    $('#homeHint').hidden = !(window.matchMedia('(display-mode: standalone)').matches || navigator.standalone);
+    setChip('wait', 'Eşleşme bekleniyor');
+    if (sharedFlag) setMsg('#phoneMsg', 'Paylaştığın içeriği göndermek için önce bilgisayarla eşleşmen gerekiyor.', true);
+  }
+
   function startHost() {
+    if (isMobile) { phoneMode(); return; }
     host = store.get('ls_host');
     if (!host || !host.id || !host.key) {
       host = { id: 'ls-' + rnd(10), key: rnd(16) };
@@ -259,7 +273,7 @@
     showView('transfer');
     $('#hostOnly').hidden = role !== 'host';
     $('#leaveBtn').textContent = role === 'host' ? 'Eşleşmeyi sıfırla' : 'Eşleşmeyi sil';
-    if (pendingText) { const t = pendingText; pendingText = null; sendText(t); }
+    flushPending();
   }
   function onDisconnected() {
     incoming = {};
@@ -274,6 +288,51 @@
       showView('wait');
     }
   }
+  function flushPending() {
+    if (pendingText) { const t = pendingText; pendingText = null; sendText(t); }
+    while (pendingFiles.length) enqueue(pendingFiles.shift());
+  }
+
+  async function loadShared() {
+    try {
+      const cache = await caches.open('localshare-share');
+      const metaRes = await cache.match('./__shared/meta');
+      if (metaRes) {
+        const meta = await metaRes.json();
+        const uniq = [];
+        [meta.title, meta.text, meta.url].filter(Boolean).forEach((p) => {
+          if (!uniq.some((u) => u.includes(p))) uniq.push(p);
+        });
+        if (uniq.length) pendingText = uniq.join('\n');
+      }
+      const keys = await cache.keys();
+      for (const req of keys) {
+        if (!req.url.includes('__shared/file-')) continue;
+        const res = await cache.match(req);
+        const blob = await res.blob();
+        let name = 'dosya';
+        try { name = decodeURIComponent(res.headers.get('X-Name') || 'dosya'); } catch (e) { /* yoksay */ }
+        pendingFiles.push(new File([blob], name, { type: blob.type }));
+      }
+      for (const req of await cache.keys()) await cache.delete(req);
+    } catch (e) { /* paylaşım desteklenmiyor olabilir */ }
+    if (conn && conn.open) flushPending();
+  }
+
+  function pairFromLink(v) {
+    try {
+      const u = new URL(String(v).trim());
+      const c = u.searchParams.get('c');
+      const k = new URLSearchParams(u.hash.replace(/^#/, '')).get('k');
+      if (c && k) {
+        store.set('ls_client', { id: c, key: k });
+        location.replace(location.pathname);
+        return true;
+      }
+    } catch (e) { /* bağlantı değil */ }
+    return false;
+  }
+
   function resetPairing() {
     if (role === 'host') {
       if (!confirm('Eşleşme sıfırlansın mı? Telefonu yeniden eşleştirmen gerekir.')) return;
@@ -478,18 +537,18 @@
 
   $('#codeForm').onsubmit = (e) => {
     e.preventDefault();
-    const v = $('#codeInput').value.trim();
+    if (!pairFromLink($('#codeInput').value)) {
+      pairMessage('Bu bir LocalShare bağlantısına benzemiyor.', true);
+      setMsg('#phoneMsg', 'Bu bir LocalShare bağlantısına benzemiyor.', true);
+    }
+  };
+  $('#pastePairBtn').onclick = async () => {
     try {
-      const u = new URL(v);
-      const c = u.searchParams.get('c');
-      const k = new URLSearchParams(u.hash.replace(/^#/, '')).get('k');
-      if (c && k) {
-        store.set('ls_client', { id: c, key: k });
-        location.replace(location.pathname);
-        return;
-      }
-    } catch (err) { /* aşağıdaki mesaj */ }
-    pairMessage('Bu bir LocalShare bağlantısına benzemiyor.', true);
+      const t = await navigator.clipboard.readText();
+      if (!pairFromLink(t)) setMsg('#phoneMsg', 'Panoda LocalShare bağlantısı yok. Bilgisayarda Bağlantıyı kopyala düğmesine basıp bağlantıyı bu telefona kopyala.', true);
+    } catch (e) {
+      setMsg('#phoneMsg', 'Panoya erişim izni verilmedi. Bağlantıyı aşağıdaki kutuya yapıştırabilirsin.', true);
+    }
   };
 
   const auto = $('#autoCopy');
@@ -531,5 +590,6 @@
     startHost();
   } else {
     startClient();
+    if (sharedFlag) loadShared();
   }
 })();

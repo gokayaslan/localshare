@@ -25,7 +25,15 @@
 
   <!-- Bilgisayar: eşleşme ekranı -->
   <main id="pairView" hidden>
-    <section class="card pair">
+    <section id="phoneHelp" class="card pair" hidden>
+      <p class="lead">Bu telefonu bilgisayarla eşleştir</p>
+      <p class="info">Bilgisayarda LocalShare'i aç, telefonunun kamerasıyla oradaki QR kodu okut ve açılan bağlantıya dokun.</p>
+      <p id="homeHint" class="info" hidden>Ana ekrandan açtığın uygulama tarayıcıdan ayrı çalışır. Eşleşmeyi bu uygulamada yapmak için bilgisayarda <b>Bağlantıyı kopyala</b>'ya bas, bağlantıyı telefona gönder ve kopyala, sonra aşağıdaki düğmeye bas.</p>
+      <button id="pastePairBtn" type="button">Panodaki bağlantıyla eşleş</button>
+      <p id="phoneMsg" class="msg" role="status"></p>
+    </section>
+
+    <section id="qrCard" class="card pair">
       <p class="lead">Telefonunun kamerasıyla bu kodu bir kez okut.</p>
       <div id="qr" class="qr" aria-label="Bağlantı QR kodu"></div>
       <p class="info">Bir kez eşleşince telefon, bu bilgisayarda LocalShare açıldığında kendiliğinden bağlanır.</p>
@@ -33,7 +41,7 @@
       <p id="pairMsg" class="msg" role="status"></p>
     </section>
 
-    <section class="card">
+    <section id="codeCard" class="card">
       <form id="codeForm">
         <label for="codeInput">QR okutamıyor musun? Bağlantıyı buraya yapıştır</label>
         <div class="inline">
@@ -43,7 +51,7 @@
       </form>
     </section>
 
-    <div class="center"><button id="resetHostBtn" class="ghost" type="button">Eşleşmeyi sıfırla</button></div>
+    <div id="resetRow" class="center"><button id="resetHostBtn" class="ghost" type="button">Eşleşmeyi sıfırla</button></div>
   </main>
 
   <!-- Telefon: bağlanma ekranı -->
