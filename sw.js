@@ -1,4 +1,4 @@
-const CACHE = 'localshare-v1';
+const CACHE = 'localshare-v2';
 const SHELL = [
   './',
   './index.html',
@@ -38,6 +38,6 @@ self.addEventListener('fetch', (e) => {
         }
         return res;
       })
-      .catch(() => caches.match(req))
+      .catch(() => caches.match(req, { ignoreSearch: true }))
   );
 });

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>LocalShare</title>
-<meta name="description" content="Telefon ve bilgisayar arasında, aynı ağda olmasan bile doğrudan dosya ve fotoğraf aktar.">
+<meta name="description" content="Telefon ve bilgisayar arasında, aynı ağda olmasan bile doğrudan dosya, fotoğraf ve metin aktar.">
 <meta name="theme-color" content="#0f8b8d">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
@@ -23,24 +23,39 @@
     <span id="chip" class="chip wait">Hazırlanıyor</span>
   </header>
 
-  <!-- Eşleşme ekranı -->
-  <main id="pairView">
+  <!-- Bilgisayar: eşleşme ekranı -->
+  <main id="pairView" hidden>
     <section class="card pair">
-      <p class="lead">Telefonunun kamerasıyla bu kodu okut.</p>
+      <p class="lead">Telefonunun kamerasıyla bu kodu bir kez okut.</p>
       <div id="qr" class="qr" aria-label="Bağlantı QR kodu"></div>
-      <p class="code">Kod: <b id="code">…</b></p>
+      <p class="info">Bir kez eşleşince telefon, bu bilgisayarda LocalShare açıldığında kendiliğinden bağlanır.</p>
       <button id="copyBtn" class="ghost" type="button">Bağlantıyı kopyala</button>
       <p id="pairMsg" class="msg" role="status"></p>
     </section>
 
     <section class="card">
-      <form id="codeForm" class="row">
-        <label for="codeInput">Karşı cihazın kodu</label>
+      <form id="codeForm">
+        <label for="codeInput">QR okutamıyor musun? Bağlantıyı buraya yapıştır</label>
         <div class="inline">
-          <input id="codeInput" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="ls-abc23xyz45">
-          <button type="submit">Bağlan</button>
+          <input id="codeInput" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="https://…">
+          <button type="submit">Eşleş</button>
         </div>
       </form>
+    </section>
+
+    <div class="center"><button id="resetHostBtn" class="ghost" type="button">Eşleşmeyi sıfırla</button></div>
+  </main>
+
+  <!-- Telefon: bağlanma ekranı -->
+  <main id="waitView" hidden>
+    <section class="card pair">
+      <p class="lead">Bilgisayara bağlanılıyor</p>
+      <p id="waitMsg" class="msg" role="status"></p>
+      <div class="inline center">
+        <button id="retryBtn" type="button">Şimdi dene</button>
+        <button id="forgetBtn" class="ghost" type="button">Eşleşmeyi sil</button>
+      </div>
+      <p class="hint">Bilgisayarda LocalShare açık olmalı.</p>
     </section>
   </main>
 
@@ -53,18 +68,33 @@
     </section>
 
     <section class="card">
+      <label for="textIn">Metin gönder</label>
+      <textarea id="textIn" rows="3" placeholder="Buraya yaz ya da yapıştır"></textarea>
+      <div class="inline wrap">
+        <button id="sendTextBtn" type="button">Metni gönder</button>
+        <button id="pasteBtn" class="ghost" type="button">Panoyu gönder</button>
+      </div>
+      <p id="note" class="msg" role="status"></p>
+    </section>
+
+    <section id="hostOnly" class="card" hidden>
+      <label class="check"><input type="checkbox" id="autoCopy"> Gelen metni otomatik kopyala</label>
+      <button id="notifBtn" class="ghost" type="button">Bildirimleri aç</button>
+    </section>
+
+    <section class="card">
       <h2>Aktarımlar</h2>
       <ul id="items" class="items"></ul>
       <p id="empty" class="hint">Henüz aktarım yok.</p>
     </section>
 
-    <button id="leaveBtn" class="ghost" type="button">Bağlantıyı kes</button>
+    <div class="center"><button id="leaveBtn" class="ghost" type="button">Eşleşmeyi sıfırla</button></div>
   </main>
 
   <footer>
     <button id="installBtn" class="ghost" type="button" hidden>Uygulama olarak yükle</button>
     <p id="iosHint" class="hint" hidden>iPhone'da yüklemek için Safari'de Paylaş düğmesine, sonra "Ana Ekrana Ekle"ye dokun.</p>
-    <p class="hint">Dosyalar iki cihaz arasında doğrudan gider, bir sunucuda saklanmaz.</p>
+    <p class="hint">Veriler iki cihaz arasında doğrudan gider, bir sunucuda saklanmaz.</p>
   </footer>
 </div>
 <script src="app.js"></script>
