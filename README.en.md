@@ -73,3 +73,7 @@ You don't need to install anything to use it. If you like, you can add it to you
 
 - [PeerJS](https://peerjs.com) (MIT)
 - [qrcode-generator](https://github.com/kazuhikoarase/qrcode-generator) (MIT)
+
+---
+
+© 2027 Gökay Aslan. All rights reserved.

@@ -73,3 +73,7 @@ Kullanmak için yüklemen gerekmez. İstersen telefonuna ya da bilgisayarına uy
 
 - [PeerJS](https://peerjs.com) (MIT)
 - [qrcode-generator](https://github.com/kazuhikoarase/qrcode-generator) (MIT)
+
+---
+
+© 2027 Gökay Aslan. Tüm hakları saklıdır.
